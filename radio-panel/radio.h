@@ -2,7 +2,6 @@
 #define _RADIO_H_
 
 #include "simvars.h"
-#include "sevensegment.h"
 
 class radio
 {
@@ -10,8 +9,7 @@ private:
     SimVars* simVars;
     Aircraft loadedAircraft = UNDEFINED;
     bool airliner = false;
-    sevensegment* sevenSegment;
-
+    
     unsigned char display1[8];
     unsigned char display2[8];
     unsigned char display3[8];
@@ -88,7 +86,6 @@ public:
     void update();
 
 private:
-    void blankDisplays();
     void writeCom(unsigned char* display, double freq);
     void writeNav(unsigned char* display, double freq);
     void writeAdf(unsigned char* display, double freq);

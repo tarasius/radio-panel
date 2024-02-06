@@ -6,7 +6,6 @@ g++ -o radio-panel -I . \
     simvars.cpp \
     globals.cpp \
     gpioctrl.cpp \
-    sevensegment.cpp \
     radio.cpp \
     radio-panel.cpp \
     -lwiringPi -lpthread || exit

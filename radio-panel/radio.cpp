@@ -7,25 +7,11 @@ radio::radio()
 {
     simVars = &globals.simVars->simVars;
     addGpio();
-
-    // Initialise 7-segment displays
-    sevenSegment = new sevensegment(false, 0);
-}
-
-void radio::blankDisplays()
-{
-    sevenSegment->blankSegData(display1, 8, false);
-    sevenSegment->blankSegData(display2, 8, false);
-    sevenSegment->blankSegData(display3, 8, false);
-    sevenSegment->writeSegData3(display1, display2, display3);
 }
 
 void radio::render()
 {
     if (!globals.electrics || (loadedAircraft == CESSNA_152 && simVars->com1Volume == 0 && simVars->com2Volume == 0)) {
-        // Turn off 7-segment displays
-        blankDisplays();
-
         // Turn off LEDS
         globals.gpioCtrl->writeLed(comControl, false);
         globals.gpioCtrl->writeLed(navControl, false);
@@ -52,10 +38,6 @@ void radio::render()
         writeCom(display1, activeFreq);
 
         if (receiveAllHideDelay > 0) {
-            // Add dot on right if receiving on ALL
-            if (simVars->com1Receive && simVars->com2Receive) {
-                sevenSegment->decimalSegData(display1, 6);
-            }
             receiveAllHideDelay--;
         }
     }
@@ -71,10 +53,6 @@ void radio::render()
     }
     else {
         writeCom(display2, standbyFreq);
-
-        if (lastFreqAdjust != 0 && fracSetSel == 1) {
-            sevenSegment->decimalSegData(display2, 6);
-        }
     }
 
     if (lastTcasAdjust == 0) {
@@ -88,42 +66,7 @@ void radio::render()
     if (tcasMode != lastTcasMode || transponderState != lastTransponderState) {
         lastTcasMode = tcasMode;
         lastTransponderState = transponderState;
-        if (loadedAircraft == AIRBUS_A310 && tcasMode == 0) {
-            sevenSegment->dimDisplay(1, true);
-        }
-        else if ((loadedAircraft == FBW_A320) && transponderState == 0) {
-            sevenSegment->dimDisplay(1, true);
-        }
-        else if (!airliner && transponderState < 3) {
-            // States 0, 1 and 2 are not on (off, stby, tst)
-            sevenSegment->dimDisplay(1, true);
-        }
-        else {
-            sevenSegment->dimDisplay(1, false);
-        }
     }
-
-    // Transponder code is in BCO16
-    int code = squawk;
-    int digit1 = code / 4096;
-    code -= digit1 * 4096;
-    int digit2 = code / 256;
-    code -= digit2 * 256;
-    int digit3 = code / 16;
-    int digit4 = code - digit3 * 16;
-    code = digit1 * 1000 + digit2 * 100 + digit3 * 10 + digit4;
-    sevenSegment->getSegData(&display3[2], 4, code, 4);
-    sevenSegment->blankSegData(display3, 2, false);
-    sevenSegment->blankSegData(&display3[6], 2, false);
-
-    // If squawk is being adjusted show a dot to indicate which digit
-    if (lastSquawkAdjust != 0) {
-        sevenSegment->decimalSegData(display3, 2 + squawkSetSel);
-    }
-
-    // Write to 7-segment displays
-    sevenSegment->writeSegData3(display1, display2, display3);
-
     // Write LEDs
     globals.gpioCtrl->writeLed(comControl, !showNav);
     globals.gpioCtrl->writeLed(navControl, showNav);
@@ -138,15 +81,6 @@ void radio::render()
 /// </summary>
 void radio::writeCom(unsigned char* display, double freq)
 {
-    int freqX1000 = (freq + 0.0001) * 1000;
-    int whole = freqX1000 / 1000;
-    int frac = freqX1000 % 1000;
-
-    sevenSegment->blankSegData(display, 1, false);
-    sevenSegment->getSegData(&display[1], 3, whole, 3);
-    sevenSegment->decimalSegData(display, 3);
-    sevenSegment->getSegData(&display[4], 3, frac, 3);
-    sevenSegment->blankSegData(&display[7], 1, false);
 }
 
 /// <summary>
@@ -158,12 +92,6 @@ void radio::writeNav(unsigned char* display, double freq)
     int freqX100 = (freq + 0.001) * 100;
     int whole = freqX100 / 100;
     int frac = freqX100 % 100;
-
-    sevenSegment->blankSegData(display, 1, false);
-    sevenSegment->getSegData(&display[1], 3, whole, 3);
-    sevenSegment->decimalSegData(display, 3);
-    sevenSegment->getSegData(&display[4], 2, frac, 2);
-    sevenSegment->blankSegData(&display[6], 2, false);
 }
 
 /// <summary>
@@ -173,24 +101,6 @@ void radio::writeNav(unsigned char* display, double freq)
 /// </summary>
 void radio::writeAdf(unsigned char* display, double freq)
 {
-    int freq1000 = freq / 100;
-    int freq100 = int(freq) % 100;
-    int freqX10 = (freq + 0.01) * 10;
-    int frac = freqX10 % 10;
-
-    if (freq1000 > 9) {
-        sevenSegment->blankSegData(display, 2, false);
-        sevenSegment->getSegData(&display[2], 2, freq1000, 2);
-    }
-    else {
-        sevenSegment->blankSegData(display, 3, false);
-        sevenSegment->getSegData(&display[3], 1, freq1000, 1);
-    }
-
-    sevenSegment->getSegData(&display[4], 2, freq100, 2);
-    sevenSegment->decimalSegData(display, 5);
-    sevenSegment->getSegData(&display[6], 1, frac, 1);
-    sevenSegment->blankSegData(&display[7], 1, false);
 }
 
 void radio::update()
@@ -740,7 +650,6 @@ void radio::gpioButtonsInput()
             // and let it auto-restart (full reset).
             if (prevComPush % 2 == 0) {
                 printf("Hard reset\n");
-                blankDisplays();
                 exit(1);
             }
         }

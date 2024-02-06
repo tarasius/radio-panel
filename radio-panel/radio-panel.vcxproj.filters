@@ -7,7 +7,6 @@
     <ClCompile Include="radio.cpp" />
     <ClCompile Include="gpioctrl.cpp" />
     <ClCompile Include="settings.cpp" />
-    <ClCompile Include="sevensegment.cpp" />
     <ClCompile Include="globals.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -17,7 +16,6 @@
     <ClInclude Include="radio.h" />
     <ClInclude Include="gpioctrl.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include="sevensegment.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="settings\default-settings.json">

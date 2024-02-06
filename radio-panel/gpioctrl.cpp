@@ -12,11 +12,6 @@ const char* ButtonGroup = "Button";                 // Push, Led
 const char* SwitchGroup = "Switch";                 // Toggle, Led
 const char* LampGroup = "Lamp";                     // Led
 
-// SPI GPIO pins
-const int SPI_MOSI = 10;
-const int SPI_SCLK = 11;
-const int SPI_CE0 = 8;
-
 void watcher(gpioctrl*);
 
 gpioctrl::gpioctrl(bool initWiringPi)
@@ -26,10 +21,6 @@ gpioctrl::gpioctrl(bool initWiringPi)
         // Use BCM GPIO pin numbers
         wiringPiSetupGpio();
     }
-
-    // Reserve pins for SPI channel 0 with no MISO
-    printf("Added SPI CE0 with no MISO: GPIO%d, GPIO%d, GPIO%d\n", SPI_MOSI, SPI_SCLK, SPI_CE0);
-
 }
 
 gpioctrl::~gpioctrl()
@@ -79,11 +70,6 @@ int gpioctrl::addControl()
 void gpioctrl::validateControl(const char* controlName, int control)
 {
     std::set<int> usedPins;
-
-    // Reserve SPI pins
-    usedPins.insert(SPI_MOSI);
-    usedPins.insert(SPI_SCLK);
-    usedPins.insert(SPI_CE0);
 
     // Find all pins already in use
     for (int num = 0; num < controlCount; num++) {

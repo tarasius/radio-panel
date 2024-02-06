@@ -1,13 +1,8 @@
 # MICROSOFT FLIGHT SIMULATOR 2020 - RADIO PANEL
-
-![Screenshot](Screenshot.jpg)
-![Screenshot](Screenshot2.jpg)
+Forked from https://github.com/scott-vincent/radio-panel
+Removed support of displays
 
 # Quick Start
-
-Download the following two files.
-
-Link: [Latest release of Radio Panel for Raspberry Pi Zero W](https://github.com/scott-vincent/radio-panel/releases/latest/download/radio-panel-v1.5.0-raspi.tar.gz)
 
 Link: [Latest release of Instrument Data Link for Windows](https://github.com/scott-vincent/instrument-data-link/releases/latest/download/instrument-data-link-v2.0.0-windows-x64.zip)
 
@@ -20,8 +15,6 @@ Untar radio-panel on your Raspberry Pi. Edit settings/radio-panel.json and in th
 A radio panel for MS FlightSim 2020. This program is designed to run
 on a Raspberry Pi Zero W and requires the following hardware:
 
-8 digit 7-segment display x 3 : https://www.amazon.co.uk/gp/product/B087BSH26N  
-
 Push button with LED x 3 : https://www.amazon.co.uk/gp/product/B07KPSZ731 
 
 Rotary encoder x 3 : https://www.amazon.co.uk/gp/product/B07FYHG2QZ  
@@ -32,20 +25,3 @@ It requires the companion program from here
 
 The companion program runs on the same host as MS FS2020 and passes data between
 the panel and the flight simulator over your Wifi connection.
-
-# Donate
-
-If you find this project useful, would like to see it developed further or would just like to buy the author a beer, please consider a small donation.
-
-[<img src="donate.svg" width="210" height="40">](https://paypal.me/scottvincent2020)
-
-# Additional Photos
-
-Panel Front
-![Panel Front](Panel_Front.jpg)
-
-Panel Back
-![Panel Back](Panel_Back.jpg)
-
-Panel Pi Zeroes
-![Panel Wiring](Panel_Pi_Zeroes.jpg)
