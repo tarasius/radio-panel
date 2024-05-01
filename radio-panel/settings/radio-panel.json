@@ -19,13 +19,13 @@
     },
     "Swap": {
       "Button": {
-        "Push": 26
+        "Push": 10
       }
     },
     "Com": {
       "Button": {
-        "Push": 20,
-        "Led": 21
+        "Push": 4,
+        "Led": 18
       }
     },
     "Nav": {
@@ -38,44 +38,17 @@
       "RotaryEncoder": {
         "Rot1": 23,
         "Rot2": 24,
-        "Push": 9
-      }
-    },
-    "Trim Wheel": {
-      "RotaryEncoder": {
-        "Rot1": 15,
-        "Rot2": 18
-      }
-    },
-    "Spoilers Auto": {
-      "Switch": {
-        "Toggle": 6
-      }
-    },
-    "Spoilers Pos": {
-      "RotaryEncoder": {
-        "Rot1": 5,
-        "Rot2": 25
-      }
-    },
-    "Spoilers Down": {
-      "Switch": {
-        "Toggle": 7
+        "Push": 7
       }
     },
     "Gear Up": {
       "Switch": {
-        "Toggle": 19
+        "Toggle": 11
       }
     },
     "Gear Down": {
       "Switch": {
-        "Toggle": 13
-      }
-    },
-    "Seat Belts": {
-      "Lamp": {
-        "Led": 14
+        "Toggle": 6
       }
     }
   }
